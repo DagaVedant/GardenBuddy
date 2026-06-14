@@ -1,12 +1,8 @@
 # GardenBuddy
 
-A Raspberry Pi dashboard that watches your garden's soil, temperature, humidity, and light in real time — and tells you exactly what to do about it.
+A Raspberry Pi dashboard that watches your garden's soil, temperature, humidity, and light in real time and tells you exactly what to do about it.
 
----
-
-## Try it
-
-> **[Live Demo →](http://your-pi-ip:5000)**
+![GardenBuddy Dashboard](demo/demo_website.png)
 
 ---
 
@@ -18,14 +14,14 @@ Follow the full setup below to get running on a Raspberry Pi with sensors.
 
 ## Features
 
-- Live readings every 10 seconds — soil moisture, temperature, humidity, and light level
+- Live readings every 10 seconds: soil moisture, temperature, humidity, and light level
 - Rolling 5-minute history charts for each sensor so you can see trends, not just snapshots
 - **Garden Health Score** (0–100) that combines all four sensors into a single number
-- **AI analysis pipeline** — a custom-trained LSTM classifies plant health from sensor history, then Ollama (llama3.2:3b) generates specific, actionable care recommendations in plain English
-- Automated alerts for critical conditions — low soil, heat stress, fungal risk
+- **AI analysis pipeline**: a custom-trained LSTM classifies plant health from sensor history, then Ollama (llama3.2:3b) generates specific, actionable care recommendations in plain English
+- Automated alerts for critical conditions (low soil, heat stress, fungal risk)
 - RGB LED on the Pi reflects health score in real time (green / amber / red)
 - Writes every reading to InfluxDB for long-term history and querying
-- Runs entirely on your local network — no cloud, no API keys, no internet required
+- Runs entirely on your local network, no cloud, no API keys, no internet required
 
 ---
 
@@ -47,13 +43,13 @@ Sensors (every 10s)
             ├─ Ollama llama3.2:3b (Model 2)
             │   Takes Model 1's output + raw readings
             │   Returns a 2-sentence actionable recommendation
-            │   Runs in background every 30s — never blocks sensor polling
+            │   Runs in background every 30s, never blocks sensor polling
             │
             ├─ InfluxDB write
             └─ /api/data  ←  browser polls every 5s
 ```
 
-**The AI pipeline is a double-model design.** The LSTM is trained on your own sensor history (auto-labelled using the health score formula) so it learns the dynamics of your specific garden — not just static thresholds. It outputs structured signals (health class, primary stressor, confidence) which are handed to the LLM as context. This keeps the LLM prompt grounded in real measurements rather than asking it to reason about raw numbers directly.
+**The AI pipeline is a double-model design.** The LSTM is trained on your own sensor history (auto-labelled using the health score formula) so it learns the dynamics of your specific garden, not just static thresholds. It outputs structured signals (health class, primary stressor, confidence) which are handed to the LLM as context. This keeps the LLM prompt grounded in real measurements rather than asking it to reason about raw numbers directly.
 
 **Soil calibration** uses two ADC constants you measure once with your probe:
 ```python
@@ -64,6 +60,8 @@ WET_VALUE = 6000    # probe reading fully submerged
 ---
 
 ## Hardware
+
+![Circuit assembly](demo/demo_circuit.jpeg)
 
 | Component | Purpose |
 |---|---|
@@ -246,7 +244,7 @@ Ollama settings are in `ai_model/ollama_advisor.py`:
 |---|---|
 | Backend | Python 3.11, Flask |
 | ML | PyTorch (LSTM), scikit-learn |
-| LLM | Ollama — llama3.2:3b (local) |
+| LLM | Ollama (llama3.2:3b, local) |
 | Database | InfluxDB v2 |
 | Frontend | React 19, TypeScript, Vite |
 | Charts | Chart.js |
