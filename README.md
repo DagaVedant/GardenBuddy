@@ -7,26 +7,12 @@ A Raspberry Pi dashboard that watches your garden's soil, temperature, humidity,
 ## Try it
 
 > **[Live Demo →](http://your-pi-ip:5000)**
->
-> Or run it locally in mock mode — no hardware required (see Quick Start below).
 
 ---
 
 ## Quick Start
 
-**No hardware? Run in mock mode on any machine:**
-
-```bash
-git clone https://github.com/YOUR_USERNAME/GardenBuddy.git
-cd GardenBuddy
-pip install flask python-dotenv
-# Set USE_MOCK = True in sensor_reader.py
-python sensor_reader.py
-```
-
-Open `http://localhost:5000` — the dashboard runs with simulated sensor data.
-
-**With a Raspberry Pi and sensors**, follow the full setup below.
+Follow the full setup below to get running on a Raspberry Pi with sensors.
 
 ---
 
@@ -202,7 +188,6 @@ All tunable settings live at the top of `sensor_reader.py`:
 
 | Setting | Default | What it does |
 |---|---|---|
-| `USE_MOCK` | `False` | Run with simulated data (no hardware needed) |
 | `POLL_INTERVAL` | `10` | Seconds between sensor reads |
 | `HISTORY_LEN` | `20` | Chart data points kept in memory |
 | `DRY_VALUE` | `21640` | ADC reading for 0% soil moisture |

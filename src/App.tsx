@@ -1,4 +1,4 @@
-import { Thermometer, Droplets, Sprout, Sun, Leaf } from 'lucide-react';
+import { Leaf } from 'lucide-react';
 
 import { useSensorData } from './hooks/useSensorData';
 import { getTempStatus, getHumidityStatus, getSoilStatus, getLightStatus } from './utils/sensorHelpers';
@@ -60,15 +60,12 @@ export default function App() {
           ) : data ? (
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
 
-              {/* ROW 1 */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1.72fr 1fr 1fr', gap: 12, alignItems: 'stretch' }}>
                 <MetricCard
                   title="Temperature"
                   value={data.temp}
                   unit="F"
                   status={getTempStatus(data.temp)}
-                  icon={<Thermometer size={18} color="#fb923c" strokeWidth={2} />}
-                  iconColor="#fb923c"
                   iconBg="rgba(251,146,60,0.15)"
                   trendData={data.chart.temperature_f}
                   trendColor="#fb923c"
@@ -80,8 +77,6 @@ export default function App() {
                   value={data.humidity}
                   unit="%"
                   status={getHumidityStatus(data.humidity)}
-                  icon={<Droplets size={18} color="#38bdf8" strokeWidth={2} />}
-                  iconColor="#38bdf8"
                   iconBg="rgba(56,189,248,0.15)"
                   trendData={data.chart.humidity}
                   trendColor="#38bdf8"
@@ -94,8 +89,6 @@ export default function App() {
                   value={data.soil}
                   unit="%"
                   status={getSoilStatus(data.soil)}
-                  icon={<Sprout size={18} color="#4ade80" strokeWidth={2} />}
-                  iconColor="#4ade80"
                   iconBg="rgba(74,222,128,0.15)"
                   trendData={data.chart.soil_moisture_percent}
                   trendColor="#4ade80"
@@ -107,8 +100,6 @@ export default function App() {
                   value={data.light}
                   unit="%"
                   status={getLightStatus(data.light)}
-                  icon={<Sun size={18} color="#fbbf24" strokeWidth={2} />}
-                  iconColor="#fbbf24"
                   iconBg="rgba(251,191,36,0.15)"
                   trendData={data.chart.light_percent}
                   trendColor="#fbbf24"
@@ -117,7 +108,6 @@ export default function App() {
                 />
               </div>
 
-              {/* ROW 2 */}
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr 1fr 1.08fr', gap: 12, alignItems: 'stretch' }}>
                 <SensorChart
                   title={CHART_CONFIGS.temperature.title}
@@ -158,7 +148,6 @@ export default function App() {
                 <IntelligencePanel insights={insights} />
               </div>
 
-              {/* ROW 3: Summary Bar */}
               <div
                 className="glass-card fade-in-up fade-in-up-9"
                 style={{ padding: '14px 20px', display: 'flex', alignItems: 'center', gap: 24 }}

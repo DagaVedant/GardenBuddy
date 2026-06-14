@@ -23,7 +23,6 @@ interface SensorChartProps {
   color: string;
   glowColor: string;
   animDelay?: string;
-  moreOptionsId?: string;
 }
 
 export const SensorChart: React.FC<SensorChartProps> = ({
@@ -118,7 +117,6 @@ export const SensorChart: React.FC<SensorChartProps> = ({
     };
 
     if (chartRef.current) {
-      // Update existing chart in place — no destroy/recreate flicker
       chartRef.current.data = chartData;
       chartRef.current.options = options;
       chartRef.current.update('none');
@@ -127,7 +125,6 @@ export const SensorChart: React.FC<SensorChartProps> = ({
     }
   }, [data, labels, color, glowColor, unit]);
 
-  // Destroy only on unmount
   useEffect(() => {
     return () => {
       chartRef.current?.destroy();

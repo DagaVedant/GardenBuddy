@@ -6,8 +6,6 @@ interface MetricCardProps {
   value: number;
   unit: string;
   status: SensorStatus;
-  icon: React.ReactNode;
-  iconColor: string;
   iconBg: string;
   trendData: number[];
   trendColor: string;
@@ -41,7 +39,6 @@ function MiniSparkline({ data, color }: { data: number[]; color: string }) {
 
   const pathD = `M ${points.join(' L ')}`;
 
-  // Gradient fill area
   const areaD = `M ${points[0]} L ${points.join(' L ')} L ${w - pad},${h - pad} L ${pad},${h - pad} Z`;
 
   return (
@@ -54,7 +51,6 @@ function MiniSparkline({ data, color }: { data: number[]; color: string }) {
       </defs>
       <path d={areaD} fill={`url(#sg-${color.replace('#', '')})`} />
       <path d={pathD} stroke={color} strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round" />
-      {/* Last dot */}
       <circle
         cx={parseFloat(points[points.length - 1].split(',')[0])}
         cy={parseFloat(points[points.length - 1].split(',')[1])}
@@ -85,7 +81,6 @@ export const MetricCard: React.FC<MetricCardProps> = ({
       setFlashing(true);
       const t = setTimeout(() => setFlashing(false), 400);
       prevValue.current = value;
-      // Animate number
       const start = displayValue;
       const end = value;
       const duration = 600;
@@ -112,7 +107,6 @@ export const MetricCard: React.FC<MetricCardProps> = ({
       className={`glass-card ${glowClass || 'glow-green'} fade-in-up ${animDelay || ''}`}
       style={{ padding: '18px 20px', position: 'relative', overflow: 'hidden' }}
     >
-      {/* Background glow blob */}
       <div
         style={{
           position: 'absolute',
@@ -128,7 +122,6 @@ export const MetricCard: React.FC<MetricCardProps> = ({
         }}
       />
 
-      {/* Header row */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
         <span
           style={{
@@ -143,7 +136,6 @@ export const MetricCard: React.FC<MetricCardProps> = ({
         </span>
       </div>
 
-      {/* Value */}
       <div
         className={`metric-value ${flashing ? 'flash-update' : ''}`}
         style={{ fontSize: 34, color: '#f0fdf4', marginBottom: 8 }}
@@ -161,7 +153,6 @@ export const MetricCard: React.FC<MetricCardProps> = ({
         </span>
       </div>
 
-      {/* Status + sparkline */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <span className={`status-badge ${statusClass}`}>{statusLabel(status)}</span>
         <MiniSparkline data={trendData.slice(-12)} color={trendColor} />

@@ -32,7 +32,7 @@ MODEL_PATH  = Path(__file__).parent / "garden_lstm.pt"
 SCALER_PATH = Path(__file__).parent / "garden_scaler.pkl"
 
 SEQ_LEN      = 30
-INPUT_SIZE   = 8    # temp, hum, soil, light + their per-step deltas
+INPUT_SIZE   = 8
 HIDDEN       = 256
 N_LAYERS     = 3
 N_CLASSES    = 4
@@ -40,7 +40,7 @@ DROPOUT      = 0.3
 BATCH        = 128
 LR           = 3e-4
 WARMUP_STEPS = 200
-AUX_WEIGHT   = 0.3   # weight of next-step prediction loss
+AUX_WEIGHT   = 0.3
 
 INFLUX_URL    = os.getenv("INFLUX_URL",    "http://localhost:8086")
 INFLUX_TOKEN  = os.getenv("INFLUX_TOKEN")
@@ -159,7 +159,7 @@ def generate_synthetic_sequences(n: int = 20000) -> list[list[dict]]:
     sequences = []
     per_class = n // N_CLASSES
 
-    for class_id, ranges in enumerate(_CLASS_STARTS):
+    for ranges in _CLASS_STARTS:
         for _ in range(per_class):
             t = float(rng.uniform(*ranges["temp"]))
             h = float(rng.uniform(*ranges["humidity"]))
@@ -193,10 +193,10 @@ def seq_to_features(seq: list[dict]) -> tuple[np.ndarray, np.ndarray, int]:
 
     deltas        = np.zeros_like(raw)
     deltas[1:]    = raw[1:] - raw[:-1]
-    features      = np.concatenate([raw, deltas], axis=1)   # (SEQ_LEN+1, 8)
+    features      = np.concatenate([raw, deltas], axis=1)
 
-    x_steps  = features[:SEQ_LEN]                           # (SEQ_LEN, 8)  — model input
-    next_raw = raw[SEQ_LEN]                                 # (4,)          — aux target
+    x_steps  = features[:SEQ_LEN]
+    next_raw = raw[SEQ_LEN]
 
     last     = seq[SEQ_LEN - 1]
     score    = calculate_score(last["temp"], last["humidity"], last["soil"], last["light"])
@@ -218,8 +218,8 @@ def build_tensors(
         all_next.append(next_raw)
         all_y.append(label)
 
-    arr  = np.array(all_X, dtype=float)            # (N, SEQ_LEN, 8)
-    flat = arr.reshape(-1, INPUT_SIZE)              # (N*SEQ_LEN, 8) for scaler
+    arr  = np.array(all_X, dtype=float)
+    flat = arr.reshape(-1, INPUT_SIZE)
 
     if scaler is None:
         scaler = StandardScaler()

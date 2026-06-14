@@ -18,7 +18,6 @@ export const IntelligencePanel: React.FC<IntelligencePanelProps> = ({ insights }
         height: '100%',
       }}
     >
-      {/* Title */}
       <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
         <span
           style={{
@@ -34,7 +33,6 @@ export const IntelligencePanel: React.FC<IntelligencePanelProps> = ({ insights }
         </span>
       </div>
 
-      {/* Insights section */}
       <div
         style={{
           background: 'rgba(0,0,0,0.2)',

@@ -11,7 +11,6 @@ function getScoreLabel(score: number): { label: string; color: string; glow: str
   return { label: 'Critical', color: '#f87171', glow: 'rgba(248,113,113,0.4)' };
 }
 
-// SVG arc path helper
 function describeArc(cx: number, cy: number, r: number, startAngle: number, endAngle: number) {
   const toRad = (a: number) => (a * Math.PI) / 180;
   const x1 = cx + r * Math.cos(toRad(startAngle));
@@ -53,7 +52,6 @@ export const HealthGauge: React.FC<HealthGaugeProps> = ({ score }) => {
 
   const { label, color, glow } = getScoreLabel(displayScore);
 
-  // Gauge arc: from 145deg to 395deg (250deg sweep)
   const cx = 110;
   const cy = 110;
   const radius = 85;
@@ -61,7 +59,6 @@ export const HealthGauge: React.FC<HealthGaugeProps> = ({ score }) => {
   const totalSweep = 250;
   const endAngle = startAngle + (displayScore / 100) * totalSweep;
 
-  // Track arc path
   const trackPath = describeArc(cx, cy, radius, startAngle, startAngle + totalSweep);
   const fillPath = describeArc(cx, cy, radius, startAngle, Math.max(startAngle + 0.5, endAngle));
 
@@ -79,7 +76,6 @@ export const HealthGauge: React.FC<HealthGaugeProps> = ({ score }) => {
         minHeight: 280,
       }}
     >
-      {/* Title */}
       <div
         style={{
           fontSize: 16,
@@ -94,7 +90,6 @@ export const HealthGauge: React.FC<HealthGaugeProps> = ({ score }) => {
         Overall Plant Health Score
       </div>
 
-      {/* Background ambient glow */}
       <div
         style={{
           position: 'absolute',
@@ -112,7 +107,6 @@ export const HealthGauge: React.FC<HealthGaugeProps> = ({ score }) => {
         }}
       />
 
-      {/* SVG Gauge */}
       <div style={{ position: 'relative', margin: '8px 0 4px' }}>
         <svg
           width={220}
@@ -135,7 +129,6 @@ export const HealthGauge: React.FC<HealthGaugeProps> = ({ score }) => {
             </filter>
           </defs>
 
-          {/* Outer decorative ring */}
           <circle
             cx={cx} cy={cy} r={98}
             fill="none"
@@ -143,7 +136,6 @@ export const HealthGauge: React.FC<HealthGaugeProps> = ({ score }) => {
             strokeWidth="1"
           />
 
-          {/* Track (background arc) */}
           <path
             d={trackPath}
             fill="none"
@@ -152,7 +144,6 @@ export const HealthGauge: React.FC<HealthGaugeProps> = ({ score }) => {
             strokeLinecap="round"
           />
 
-          {/* Inner track shadow */}
           <path
             d={trackPath}
             fill="none"
@@ -162,7 +153,6 @@ export const HealthGauge: React.FC<HealthGaugeProps> = ({ score }) => {
             style={{ opacity: 0.4 }}
           />
 
-          {/* Filled arc */}
           <path
             d={fillPath}
             fill="none"
@@ -173,7 +163,6 @@ export const HealthGauge: React.FC<HealthGaugeProps> = ({ score }) => {
             style={{ transition: 'd 0.8s ease' }}
           />
 
-          {/* Glowing tip dot */}
           {displayScore > 1 && (() => {
             const tipAngle = ((startAngle + (displayScore / 100) * totalSweep) * Math.PI) / 180;
             const tipX = cx + radius * Math.cos(tipAngle);
@@ -187,8 +176,6 @@ export const HealthGauge: React.FC<HealthGaugeProps> = ({ score }) => {
             );
           })()}
 
-          {/* Center content */}
-          {/* Score number */}
           <text
             x={cx}
             y={cy + 8}
@@ -206,7 +193,6 @@ export const HealthGauge: React.FC<HealthGaugeProps> = ({ score }) => {
             {displayScore}
           </text>
 
-          {/* Inner decorative ring */}
           <circle
             cx={cx} cy={cy} r={66}
             fill="rgba(0,0,0,0.15)"
@@ -215,7 +201,6 @@ export const HealthGauge: React.FC<HealthGaugeProps> = ({ score }) => {
           />
         </svg>
 
-        {/* Status badge centered below score */}
         <div
           style={{
             position: 'absolute',
@@ -239,7 +224,6 @@ export const HealthGauge: React.FC<HealthGaugeProps> = ({ score }) => {
         </div>
       </div>
 
-      {/* Subtitle */}
       <div
         style={{
           fontSize: 11.5,
